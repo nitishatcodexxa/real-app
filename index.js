@@ -104,7 +104,7 @@ app.put('/task/updatePriority',task.taskPriority)
 app.put('/task/updateassignmnet',task.taskStaff)
 app.delete('/task/deleteselected',task.taskStaffselelctedDelete)
 app.put('/task/updateassigned',task.taskAssignedchange)
-
+app.put('/task/taskUpdateByIndex',task.taskUpdateByIndex)
 
 
 app.post('/retrivelead',lead.retriveLead)
@@ -147,7 +147,7 @@ app.post('/billingRetrived',bill_data.billingDataRetrived)
 
 ////// notification retrive
 app.post('/retriveNotification',notification_code.retriveNotification)
-
+app.post('/notificationDelete',notification_code.deleteNotification)
 ////// for add event
 
 app.post('/addEvent',add_event.addEvent)
@@ -184,7 +184,16 @@ let unicidpdf = uuidv4()
         (async () => {
 
     try {
-     const browser = await puppeteer.launch();
+     const browser = await puppeteer.launch(
+      {
+        executablePath: '/usr/bin/chromium-browser',
+        headless: 'new',
+        args: ['--no-sandbox']
+        // `headless: true` (default) enables old Headless;
+        // `headless: 'new'` enables new Headless;
+        // `headless: false` enables “headful” mode.
+      }
+     );
       const page = await browser.newPage();
       const content = await compile('Bill',{
         "purchaseDate":req.body.date,
@@ -217,13 +226,199 @@ let unicidpdf = uuidv4()
 
 
 
- 
-
-var cronTask = cron.schedule('*/2 * * * *', async() => {
+var cronTask = cron.schedule('0 0 */23 * * *', async() => {
 reminder_model.reminderModel.find().then((data)=>{
 if(data.length > 0){
  for (let i = 0; i < data.length; i++) {
- let da = new Date()
+  switch (data[i].type) {
+    case "once":
+      console.log('once')
+if(moment(data[i].date).format('YYYY-MM-DD')==moment(new Date()).format('YYYY-MM-DD')){
+  const notification = new notification_model.noticationModel({
+  date:data[i].date,
+  reminder_id:data[i].reminder_id,
+  uuid:data[i].user_id,
+  notification_text:data[i].message,
+  notification_id:uuidv4()
+})
+notification.save().then((s)=>{
+  console.log(s)
+})
+
+   }
+
+
+      break;
+    case "Daily":
+    
+if(data[i].last_sent_notification==""){
+ console.log('daily remainder')
+ if(moment(data[i].date).format('YYYY-MM-DD')==moment(new Date()).format('YYYY-MM-DD')){
+   const notification = new notification_model.noticationModel({
+   date:data[i].date,
+   reminder_id:data[i].reminder_id,
+   uuid:data[i].user_id,
+   notification_text:data[i].message,
+   notification_id:uuidv4()
+ })
+ notification.save().then((s)=>{
+  reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+
+  })})
+}
+}else{
+  
+  if(moment(data[i].last_sent_notification).format('YYYY-MM-DD')==moment(new Date()).format('YYYY-MM-DD')){
+    const notification = new notification_model.noticationModel({
+    date:data[i].date,
+    reminder_id:data[i].reminder_id,
+    uuid:data[i].user_id,
+    notification_text:data[i].message,
+    notification_id:uuidv4()
+  })
+  notification.save().then((s)=>{
+   reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+ 
+   })})
+ }
+
+}
+
+
+      break;
+    case "Weekly":
+
+    if(data[i].last_sent_notification==""){
+      console.log('daily remainder')
+      if(moment(data[i].date).format('YYYY-MM-DD')==moment(new Date()).format('YYYY-MM-DD')){
+        const notification = new notification_model.noticationModel({
+        date:data[i].date,
+        reminder_id:data[i].reminder_id,
+        uuid:data[i].user_id,
+        notification_text:data[i].message,
+        notification_id:uuidv4()
+      })
+      notification.save().then((s)=>{
+       reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+     
+       })})
+     }
+     }else{
+       if(moment(data[i].last_sent_notification, "YYYY-MM-DD").add(7, 'days')==moment(new Date()).format('YYYY-MM-DD')){
+         const notification = new notification_model.noticationModel({
+         date:data[i].date,
+         reminder_id:data[i].reminder_id,
+         uuid:data[i].user_id,
+         notification_text:data[i].message,
+         notification_id:uuidv4()
+       })
+       notification.save().then((s)=>{
+        reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+      
+        })})
+      }
+     }
+     
+
+
+      break;
+      case "Monthly":
+      
+      
+      if(data[i].last_sent_notification==""){
+        console.log('daily remainder')
+        if(moment(data[i].date).format('YYYY-MM-DD')==moment(new Date()).format('YYYY-MM-DD')){
+          const notification = new notification_model.noticationModel({
+          date:data[i].date,
+          reminder_id:data[i].reminder_id,
+          uuid:data[i].user_id,
+          notification_text:data[i].message,
+          notification_id:uuidv4()
+        })
+        notification.save().then((s)=>{
+         reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+       
+         })})
+       }
+       }else{
+         if(moment(data[i].last_sent_notification, "YYYY-MM-DD").add(28, 'days')==moment(new Date()).format('YYYY-MM-DD')){
+           const notification = new notification_model.noticationModel({
+           date:data[i].date,
+           reminder_id:data[i].reminder_id,
+           uuid:data[i].user_id,
+           notification_text:data[i].message,
+           notification_id:uuidv4()
+         })
+         notification.save().then((s)=>{
+          reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+        
+          })})
+        }
+       }
+       
+  
+      break;
+      case "Yearly":
+          
+      if(data[i].last_sent_notification==""){
+        console.log('daily remainder')
+        if(moment(data[i].date).format('YYYY-MM-DD')==moment(new Date()).format('YYYY-MM-DD')){
+          const notification = new notification_model.noticationModel({
+          date:data[i].date,
+          reminder_id:data[i].reminder_id,
+          uuid:data[i].user_id,
+          notification_text:data[i].message,
+          notification_id:uuidv4()
+        })
+        notification.save().then((s)=>{
+         reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+       
+         })})
+       }
+       }else{
+         if(moment(data[i].last_sent_notification, "YYYY-MM-DD").add(365, 'days')==moment(new Date()).format('YYYY-MM-DD')){
+           const notification = new notification_model.noticationModel({
+           date:data[i].date,
+           reminder_id:data[i].reminder_id,
+           uuid:data[i].user_id,
+           notification_text:data[i].message,
+           notification_id:uuidv4()
+         })
+         notification.save().then((s)=>{
+          reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(new Date()).format('YYYY-MM-DD')}).then((ds)=>{
+        
+          })})
+        }
+       }
+       
+
+       break;
+  }
+ }}
+})
+});
+
+cronTask.start();
+
+
+
+
+
+
+
+
+
+
+
+app.listen(5000,()=>{
+    console.log("listening")
+})
+
+
+
+
+/*
+let da = new Date()
  var now = new Date(Date.now() - (5 * 60 * 1000));
  var compar_date = moment(da).valueOf()
 var targetDate = moment(data[i].date).valueOf()
@@ -248,24 +443,13 @@ notification.save().then((s)=>{
 }else{
 
 }
+*/
+
+/*
+reminder_model.reminderModel.updateOne({"user_id":data[i].user_id,"reminder_id":data[i].reminder_id},{"last_sent_notification":moment(Date).format('YYYY-MM-DD')}).then((ds)=>{
 
 
-
-
-})});
-
-cronTask.start();
-
-
-
-
-
-
-
-
-
-
-
-app.listen(5000,()=>{
-    console.log("listening")
+  
 })
+
+*/

@@ -11,7 +11,8 @@ user_id:String,
 reminder_id:String,
 message:String,
 is_email:Boolean,
-is_whatsappno:Boolean
+is_whatsappno:Boolean,
+last_sent_notification:String,
 })
 
 exports.reminderModel=new mongoose.model('reminder',reminderSchema)

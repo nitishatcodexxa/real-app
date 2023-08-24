@@ -34,7 +34,8 @@ for (let i = 0; i < req.files.file.length; i++) {
         task_id:task_id,
         recursion_is:req.body.recursion_is,
         user_id:decode.uuid,  
-        created_by:req.body.created_by
+        created_by:req.body.created_by,
+        index:0,
     })
 
     addTask.save().then(()=>{
@@ -59,7 +60,8 @@ res.send({"res":"ok"})
         task_id:task_id,
         user_id:decode.uuid,
         recursion_is:req.body.recursion_is,
-        created_by:req.body.created_by
+        created_by:req.body.created_by,
+        index:0,
     })
 
     addTask.save().then(()=>{
@@ -316,5 +318,30 @@ res.send({"data":ss})
 
 }
 
+
+
+
+exports.taskUpdateByIndex=(req,res)=>{
+    let token ;
+    const {authorization} = req.headers
+    if(authorization && authorization.startsWith('Bearer')){
+    token = authorization.split(' ')[1]
+    jwt.verify(token,process.env.SECKRET_KEY,(err,decode)=>{
+    if(!err){
+  
+  for (let i = 0; i < req.body.data.length; i++) {
+    task_model.taskModel.updateOne({"user_id":decode.uuid,"task_id":req.body.data[i].task_id},{status:req.body.destination.droppableId,index:i}).then((s)=>{
+     
+        })
+  } 
+    res.send({"ok":"value"})
+  
+    }
+  })
+    }
+
+
+
+}
 
 

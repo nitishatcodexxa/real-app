@@ -15,3 +15,18 @@ res.send({"data":data})
     }
 
 }
+
+
+exports.deleteNotification=(req,res)=>{
+    let token ;
+    const {authorization} = req.headers
+    if(authorization && authorization.startsWith('Bearer')){
+    token = authorization.split(' ')[1]
+    jwt.verify(token,process.env.SECKRET_KEY,(err,decode)=>{
+    if(!err){ 
+     notication_Model.noticationModel.deleteMany({"notification_id":req.body.id}).then((data)=>{
+res.send({"data":data})
+     })
+    }
+})
+}}

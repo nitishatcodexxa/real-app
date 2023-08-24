@@ -5,10 +5,10 @@ const jwt =require('jsonwebtoken')
 
 exports.cheakRegistration=(req,res,next)=>{   /// cheak code for ehether user exist with us or not
    const email = req.body.email
-   console.log(email)
 reg_Model.registrationModel.findOne({email:email}).then((s)=>{
 try {
    if(s){
+      
 res.send({"status":"user already registred"})
    }else{
       next()
@@ -63,7 +63,7 @@ try {
    var token = jwt.sign({ email:email,password:password,uuid:uuid},process.env.SECKRET_KEY);
    await reg_Model.registrationModel.findOne({"email":email,"password":password}).then((data)=>{
       
-       res.send({"token":token,"result":data})
+       res.send({"token":token,"result":data,"register":"ok"})
    })
    
 

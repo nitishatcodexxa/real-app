@@ -21,6 +21,7 @@ const rr = new  rem_model.reminderModel({
     reminder_id:uuidv4(),
     is_email:req.body.is_email,
     is_whatsappno:req.body.is_whatsappno,
+    last_sent_notification:"",
 })
 
 rr.save().then((ss)=>{
@@ -136,6 +137,7 @@ console.log("adss")
         reminder_id: req.body.reminder_id ,   ////// here reminder id equal to customer id
         is_email:req.body.is_email,
         is_whatsappno:req.body.is_whatsappno,
+        last_sent_notification:"",
     })
     
     rr.save().then((ss)=>{
@@ -180,18 +182,8 @@ console.log("adss")
             })
             
             }
-            })
-            
-            }
-            
-            }
+            })} }
         
-
-
-
-
-
-
 
 
     exports.retriveRemainderbyid=(req,res)=>{
@@ -205,10 +197,4 @@ console.log("adss")
         rem_model.reminderModel.findOne({"user_id":decode.uuid,"reminder_id":req.body.id}).then((s)=>{
             res.send({"data":s})
         })
-    
-
-
-    }
-})
-    }
-    }
+    }})}}
