@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+<style>
+body{
+margin-left: 50px;
+margin-right: 50px;
+}
+.head{
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.head h6{
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+}
+.body-header{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+.body-img{
+    height: 100px;
+    width:150px;
+}
+
+.bottom-head{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.colum-one h6{
+line-height: 0.5px;
+font-size: 13px;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.colum-two h6{
+line-height: 0.5px;
+font-size: 13px;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.body-line{
+    height:1px;
+    background-color: #28176f;
+    width: 100%;
+}
+.row-div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.row-div h6{
+    line-height: 1px;
+font-size: 13px;
+font-weight: bold;
+}
+.terms-condition h6{
+font-size: 13;
+font-weight: 400;
+}
+
+.basic-background{
+    margin-top: 400px;
+    height:260px;
+    width: 100%;
+    background-color:#e5e2fc;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.background-img-center{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.row-total{
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+</style>
+
+    <body>
+      <div class="head">
+        <h6>INVOICE</h6>
+      </div>
+
+<div class="body-header">
+<div class="body-img">
+<img src="http://localhost:5000/logo.webp"/>
+</div>
+<div class="body-text">
+<h6>TM</h6>
+</div>
+</div>
+
+<div class="bottom-head">
+    <div class="colum-one">
+        <h4>Codexxa Bussines Solution Pvt Ltd</h6>
+        <h6>info@codexxa.net</h6>
+        <h6>88888888775</h6>
+    </div>
+
+<div class="colum-two">
+     <h4>Billing To</h4>
+    <h6>{{firstname}} - {{lastname}}</h6>
+    <h6>{{email}}</h6>
+    <h6>{{phone}}</h6>
+    <h6>{{gst}}</h6>
+     <h6>{{purchaseDate}}</h6>
+    
+</div>
+</div>
+
+<div class="body-line">
+</div>
+
+<div class="row-div">
+    <div><h6>Product name</h6></div>
+    <div><h6>Cost</h6></div>
+    <div><h6>Quantity</h6></div>
+    <div><h6>Discount</h6></div>
+    <div><h6>Total amount</h6></div>
+</div>
+
+<div class="body-line">
+</div>
+
+<div class="row-div">
+    <div><h6>{{packages}}</h6></div>
+    <div><h6>{{amount}}</h6></div>
+    <div><h6>1</h6></div>
+    <div><h6>0%</h6></div>
+    <div><h6>{{amount}}</h6></div>
+</div>
+    
+
+<div class="border">
+
+</div>
+<div class="row-total" style="border-top: 2px;border-color: #28176f;">
+    <div><h5>Total</h5></div>
+    <div><h5>{{amount}}</h5></div>
+</div>
+
+<div class="basic-background">
+    <div>
+<h6 style="color: brown;padding: 20px;">Terms and condition</h6>
+<h6 >
+    once plan taken cannot refundable
+</6>
+<h6 >
+    once plan taken cannot refundable , we and are 
+</6>
+<h6>
+    once plan taken cannot refundable
+</6>
+
+    </div>
+   <div class="background-img-center">
+<img src="http://localhost:5000/lo.png" style="height: 250px;width: 300px;"/>
+    </div>
+   </div> 
+
+
+
+
+
+
+
+
+    </body>
+</html>
